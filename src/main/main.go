@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "grpc"
 
 func main() {
-	fmt.Println("hello world!");
+	grpc.ServerStart()
 }
