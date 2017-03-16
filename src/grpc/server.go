@@ -1,28 +1,27 @@
 package grpc
 
 import (
-	"net/rpc"
-	"net"
-	"log"
 	"fmt"
+	"log"
+	"net"
 	"net/http"
+	"net/rpc"
 )
 
 type Echo int
 
-func (t *Echo) Hi(args string,reply *string) error {
+func (t *Echo) Hi(args string, reply *string) error {
 	*reply = "test:" + args
 	return nil
 }
 
-func ServerStart()  {
+func ServerStart() {
 	rpc.Register(new(Echo))
 	rpc.HandleHTTP()
-	l, e := net.Listen("tcp",":1234")
+	l, e := net.Listen("tcp", ":1234")
 	if e != nil {
-		log.Fatal("listen error:",e)
+		log.Fatal("listen error:", e)
 	}
 	fmt.Println("rpc listener started.")
-	http.Serve(l,nil)
+	http.Serve(l, nil)
 }
-

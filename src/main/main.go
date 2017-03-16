@@ -3,5 +3,6 @@ package main
 import "grpc"
 
 func main() {
-	grpc.ServerStart()
+	go grpc.ServerStart()
+	grpc.ClientTest()
 }
