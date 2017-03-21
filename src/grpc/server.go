@@ -23,5 +23,7 @@ func ServerStart() {
 		log.Fatal("listen error:", e)
 	}
 	fmt.Println("rpc listener started.")
-	http.Serve(l, nil)
+	for {
+		http.Serve(l, nil)
+	}
 }
