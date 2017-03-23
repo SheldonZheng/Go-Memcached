@@ -1,14 +1,12 @@
 package main
 
 import (
-	"cache"
-	"fmt"
+	"grpc"
 )
 
 func main() {
-	cache.Set("test","111")
-	fmt.Println(cache.Get("test"))
-	/*
+	/*cache.Set("test","111")
+	fmt.Println(cache.Get("test"))*/
 	go grpc.ServerStart()
-	grpc.ClientTest()*/
+	grpc.ClientTest()
 }

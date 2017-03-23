@@ -19,7 +19,22 @@ func ClientTest() {
 	if err != nil {
 		log.Fatal("arith error:", err)
 	}
-	fmt.Printf("Arith: %d*%d=%d\n", args, reply)
+	fmt.Println("Arith: %d*%d=%d\n", args, reply)
+
+	var argsa *Args = &Args{"test1", "aaaa"}
+
+	err = client.Call("Echo.Set",&argsa,&reply)
+	if err != nil {
+		log.Fatal("arith error:", err)
+	}
+	fmt.Println("Set:%d + %d", argsa, reply)
+
+	err = client.Call("Echo.Get",&argsa,&reply)
+	if err != nil {
+		log.Fatal("arith error:", err)
+	}
+	fmt.Println("Get:%d + %d", argsa, reply)
+
 }
 
 func main() {
