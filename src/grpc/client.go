@@ -36,7 +36,3 @@ func ClientTest() {
 	fmt.Println("Get:%d + %d", argsa, reply)
 
 }
-
-func main() {
-	ClientTest()
-}
