@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"util"
+	"bufio"
+	"strings"
 )
 
 func StartClient(tcpaddr string){
@@ -33,11 +35,13 @@ func StartClient(tcpaddr string){
 
 func chatSend(conn net.Conn){
 
-	var input string
-	username := conn.LocalAddr().String()
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("please input your command:")
+	//username := conn.LocalAddr().String()
 	for {
 
-		fmt.Scanln(&input)
+		input, err := inputReader.ReadString('\n')
+		input = strings.Replace(input,"\n","",-1)
 		if input == "/quit"{
 			fmt.Println("ByeBye..")
 			conn.Close()
@@ -45,8 +49,8 @@ func chatSend(conn net.Conn){
 		}
 
 
-		lens,err :=conn.Write([]byte(username + " Say :::" + input))
-		fmt.Println(lens)
+		_ ,err =conn.Write([]byte(input))
+		//fmt.Println(lens)
 		if(err != nil){
 			fmt.Println(err.Error())
 			conn.Close()

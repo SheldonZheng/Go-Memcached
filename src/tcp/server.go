@@ -4,6 +4,8 @@ import (
 	"net"
 	"util"
 	"fmt"
+	"strings"
+	"cache"
 )
 
 func StartTCPServer(port string)  {
@@ -40,9 +42,17 @@ func Handler(conn net.Conn,messages chan string){
 		if lenght > 0{
 			buf[lenght]=0
 		}
-		fmt.Println("Rec[",conn.RemoteAddr().String(),"] Say :" ,string(buf[0:lenght]))
 		reciveStr :=string(buf[0:lenght])
+		fmt.Println("Rec[",conn.RemoteAddr().String(),"] Command :" ,reciveStr)
 		messages <- reciveStr
+		args := strings.Split(reciveStr," ")
+		if len(args) == 2 && args[0] == "get" {
+			value := cache.Get(args[1])
+			conn.Write([]byte(value))
+		} else if len(args) == 3 && args[0] == "set" {
+			cache.Set(args[1],args[2])
+			conn.Write([]byte("success set key : " + args[1]))
+		}
 
 	}
 
@@ -51,7 +61,7 @@ func Handler(conn net.Conn,messages chan string){
 func echoHandler(conns *map[string]net.Conn,messages chan string){
 
 
-	for{
+	/*for{
 		msg:= <- messages
 		fmt.Println(msg)
 		for key,value := range *conns {
@@ -63,6 +73,6 @@ func echoHandler(conns *map[string]net.Conn,messages chan string){
 			}
 
 		}
-	}
+	}*/
 
 }
