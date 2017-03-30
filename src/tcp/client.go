@@ -17,7 +17,7 @@ func StartClient(tcpaddr string){
 	conn, err := net.DialTCP("tcp", nil, tcpAddr)
 	util.CheckError(err,"DialTCP")
 	//启动客户端发送线程
-	go setTest(conn)
+	go chatSend(conn)
 
 	buf := make([]byte,1024)
 	for{
