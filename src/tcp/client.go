@@ -7,6 +7,7 @@ import (
 	"util"
 	"bufio"
 	"strings"
+	"strconv"
 )
 
 func StartClient(tcpaddr string){
@@ -16,7 +17,7 @@ func StartClient(tcpaddr string){
 	conn, err := net.DialTCP("tcp", nil, tcpAddr)
 	util.CheckError(err,"DialTCP")
 	//启动客户端发送线程
-	go chatSend(conn)
+	go setTest(conn)
 
 	buf := make([]byte,1024)
 	for{
@@ -28,18 +29,30 @@ func StartClient(tcpaddr string){
 			os.Exit(0)
 		}
 		fmt.Println(string(buf[0:lenght]))
+		//fmt.Println("please input your command:")
 
 	}
 }
 
+func setTest(conn net.Conn) {
+	for i := 0;i < 10000;i++ {
+		command := "set key" + strconv.Itoa(i) + " value" + strconv.Itoa(i) + "\n"
+		_ ,err := conn.Write([]byte(command))
+		if(err != nil){
+			fmt.Println(err.Error())
+			conn.Close()
+			break
+		}
+	}
+}
 
 func chatSend(conn net.Conn){
 
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("please input your command:")
 	//username := conn.LocalAddr().String()
+	//fmt.Println("please input your command:")
 	for {
-
+		fmt.Println("")
 		input, err := inputReader.ReadString('\n')
 		input = strings.Replace(input,"\n","",-1)
 		if input == "/quit"{
