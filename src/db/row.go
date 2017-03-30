@@ -1,6 +1,6 @@
 package db
 
-type row struct {
+type Row struct {
 	value []interface{}
 	Type []interface{}
 }
