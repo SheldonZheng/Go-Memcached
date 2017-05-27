@@ -4,5 +4,3 @@ type Field struct {
 	Type   interface{}
 	Length int
 }
-
-
