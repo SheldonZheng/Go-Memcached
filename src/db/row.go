@@ -1,5 +1,5 @@
 package db
 
 type Row struct {
-	units []Unit
+	Values map[string]interface{}
 }
